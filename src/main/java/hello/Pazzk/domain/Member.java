@@ -1,5 +1,6 @@
 package hello.Pazzk.domain;
 
+import hello.Pazzk.repository.Item;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -20,4 +21,6 @@ public class Member {
     private String userId;
     @NotNull @NotBlank
     private String pwd;
+
+
 }

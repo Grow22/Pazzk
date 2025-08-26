@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Repository
+//@Repository
 public class MemoryItemRepository implements ItemRepository{
 
     private static final Map<Long, Item> store = new HashMap<>(); // Item 객체 저장소
@@ -17,7 +17,11 @@ public class MemoryItemRepository implements ItemRepository{
     // item 저장 메서드
     @Override
     public Item save(Item item) {
-        item.setId(++sequence);
+
+        // item 이 없는 경우 저장
+        if(item.getId() == null || item.getId() ==0) {
+            item.setId(++sequence);
+        }
         store.put(item.getId(), item);
         return item;
     }

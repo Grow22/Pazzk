@@ -58,47 +58,22 @@
             return "search";
         }
 
-        // 글 추가 HTML 이동 메서드
-        // GET Mapping
-        @GetMapping("/add")
-        public String moveAddForm(Model model) {
-            model.addAttribute("item", new Item()); // 빈 model 객체 사용
-            return "add-form";
-        }
 
-        // 글 추가 메서드
-        // Post Mapping
-        @PostMapping("/add")
-        public String addNewItem(@ModelAttribute Item item, RedirectAttributes redirectAttributes, Model model) {
-
-            String fullUrl = "https://chzzk.naver.com/clip/" + item.getVideoId();
-            item.setUrl(fullUrl);
-
-            /*
-            // 클립 url 유효성 검사
-            // 검사 실패 시 redirect
-            if(!itemService.validateVideoId(item.getVideoId())) {
-                redirectAttributes.addFlashAttribute("error", "url 이 유효하지 않습니다.");
-                redirectAttributes.addFlashAttribute("item", item);
-                return "redirect:/add";
-            }
-             */
-            // (1) 입력된 item 저장
-            Item savedItem = itemService.save(item);
-            // (2) search 페이지로 이동하기 전 모든 데이터를 model 에 저장
-            return "redirect:/";
-        }
 
 
         @PostMapping("/likes/{itemId}")
         public ResponseEntity<Item> plusLike(@PathVariable Long itemId) {
 
+            System.out.println("plusLike 메서드 호출");
+
             // itemId 에 해당하는 item 을 find
             Item item =itemService.findById(new ItemSearchCond(itemId));
 
-            // 좋아요를 증가
-            item.likePlus();
 
+            // 좋아요를 증가
+            //item.likePlus();
+
+            //itemService.save(item);
             // 결과 반환
             return new ResponseEntity<>(item, HttpStatus.OK);
         }

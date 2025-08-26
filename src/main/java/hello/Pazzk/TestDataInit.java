@@ -20,6 +20,8 @@ public class TestDataInit {
     @EventListener(ApplicationReadyEvent.class)
     public void initData() {
         log.info("test data init");
+
+
         itemRepository.save(new Item("네이버","http://youtube.com/watch?v=U3BJyWSSbro&t=28s","Q7st4TpqDA"));
         itemRepository.save((new Item("인프런","http://youtube.com/watch?v=1Lhfcz9MnmQ/" ,"lOMDkzvzcn")));
     }
