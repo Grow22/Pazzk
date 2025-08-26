@@ -1,0 +1,177 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+.container {
+    max-width: 800px; /* 더 넓은 화면을 위해 컨테이너 최대 너비 증가 */
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+h1 {
+    text-align: center;
+    color: #333;
+}
+form {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+input[type="text"] {
+    width: 70%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+button {
+    padding: 10px 15px;
+    margin-left: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #0056b3;
+}
+.add-link {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+}
+.add-link a {
+    padding: 10px 20px;
+    background-color: #6c757d;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+}
+.add-link a:hover {
+    background-color: #5a6268;
+}
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+li {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+li:last-child {
+    border-bottom: none;
+}
+p.no-results {
+    text-align: center;
+    color: #888;
+}
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    table-layout: auto; /* 테이블 레이아웃 자동 조정 */
+}
+.table th,
+.table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+}
+.table th {
+    background-color: #f2f2f2;
+    color: #555;
+}
+.table tbody tr:hover {
+    background-color: #f9f9f9;
+}
+.comment-btn {
+    background-color: #e9ecef;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.comment-section {
+    display: none;
+    margin-top: 10px;
+    padding-left: 20px;
+    border-left: 2px solid #007bff;
+}
+.register-button {
+    background-color: #6c757d;
+    color: white;
+    padding: 7px 15px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+}
+.register-button:hover {
+    background-color: #5a6268;
+}
+.header-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 15px;
+}
+.welcome-message {
+    margin-right: 15px;
+    font-size: 16px;
+    color: #555;
+    font-weight: bold;
+}
+.login-form-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.login-input {
+    width: 150px;
+    padding: 7px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+.login-button {
+    padding: 7px 15px;
+    background-color: #343a40;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+.login-button:hover {
+    background-color: #212529;
+}
+/* 영상 관련 CSS */
+.table thead th:nth-child(2),
+.table tbody td:nth-child(2) {
+    width: 560px; /* 늘어난 URL 칸 너비 */
+}
+.video-container {
+    width: 100%;
+    position: relative;
+}
+/* iframe을 부모 컨테이너 크기에 맞춤 */
+.video-player-frame {
+    width: 100%;
+    height: 100%;
+    display: block !important;
+}
+.video-player-frame iframe {
+    width: 560px; /* 유튜브 영상 기본 너비와 유사하게 설정 */
+    height: 315px; /* 16:9 비율 유지 */
+    aspect-ratio: 16/9; /* 영상 비율 유지 */
+}
+/* 썸네일은 보이지 않게 처리 */
+.video-thumbnail {
+    display: none;
+}
