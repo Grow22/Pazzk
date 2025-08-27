@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<th:block th:each="item : ${items}">
+    <h1 th:text="${item.itemName}">아이템 이름 출력</h1>
+    <h1 th:text="${item.url}">아이템 url 출력</h1>
+</th:block>
+</body>
+</html>

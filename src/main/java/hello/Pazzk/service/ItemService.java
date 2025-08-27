@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +23,6 @@ public class ItemService {
     private final ItemRepository itemRepository;
 
     // Url 유효성 검사 메서드
-    public URLValidator urlValidator = new URLValidator();
 
 
     public Item save(Item item) {
@@ -35,9 +35,13 @@ public class ItemService {
 
 
     // itemId 에 해당하는 item 을 찾는 메서들
-    public Item findById(ItemSearchCond cond) {
+    public Optional<Item> findById(ItemSearchCond cond) {
 
         return itemRepository.findById(cond);
     }
 
+
+    public List<Item > findByMemberId(Long memberId) {
+     return itemRepository.findByMember_Id(memberId);
+    }
 }

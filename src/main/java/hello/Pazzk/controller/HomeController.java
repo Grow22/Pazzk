@@ -62,18 +62,18 @@
 
 
         @PostMapping("/likes/{itemId}")
-        public ResponseEntity<Item> plusLike(@PathVariable Long itemId) {
+        public ResponseEntity<Item> plusLike(@PathVariable("itemId") Long itemId) {
 
             System.out.println("plusLike 메서드 호출");
 
             // itemId 에 해당하는 item 을 find
-            Item item =itemService.findById(new ItemSearchCond(itemId));
+            Item item =itemService.findById(new ItemSearchCond(itemId)).get();
 
 
             // 좋아요를 증가
-            //item.likePlus();
+            item.likePlus();
 
-            //itemService.save(item);
+            itemService.save(item);
             // 결과 반환
             return new ResponseEntity<>(item, HttpStatus.OK);
         }

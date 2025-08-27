@@ -51,6 +51,7 @@ public class MemberController {
             redirectAttributes.addFlashAttribute("member", member); // 입력했던 값 유지
             return "redirect:/member/add";
         }
+        // 정상적으로 저장될 시 Member 를 저장
         redirectAttributes.addAttribute("member", new Member());
         System.out.println("MemberController 호출");
         memberService.saveMember(member);

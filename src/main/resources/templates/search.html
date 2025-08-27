@@ -33,6 +33,9 @@
         <a th:href="@{/my-videos}">내가 추가한 영상 보러가기</a>
     </div>
 
+    <div class="my-bookmark-link">
+        <a th:href="@{/my-bookmark}">나의 북마크 영상 보러가기</a>
+    </div>
 
     <div class="add-link">
         <a th:href="@{/add}">새로운 항목 추가</a>
@@ -76,7 +79,11 @@
                         <button class="comment-like" th:data-item-id="${item.id}" th:text="|좋아요(${item.likes})|">
                             좋아요
                         </button>
+                        <button class="bookmark-on" th:data-item-id="${item.id}">
+                            즐겨찾기
+                        </button>
                     </td>
+
                 </tr>
                 <tr>
                     <td colspan="4"> <div class="comment-section" th:id="'comments-' + ${item.id}">
@@ -97,5 +104,6 @@
 <script th:src="@{/js/comment.js}"></script>
 <script th:src="@{/js/like.js}"></script>
 <script th:src="@{/js/video-player.js}"></script>
+<script th:src="@{/js/bookmark.js}"></script>
 </body>
 </html>

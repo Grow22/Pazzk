@@ -9,13 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
             button.disabled = true;
 
             const itemId = button.dataset.itemId;
-            console.log(`클릭 감지: itemId = ${itemId}`);
 
             sendLikeToServer(itemId, button);
         });
     });
 
-    // 3. 서버에 좋아요 요청을 보냅니다.
+    // 3. 서버에 좋아요 요청 전송
     const sendLikeToServer = async (itemId, button) => {
         try {
             const response = await fetch(`/likes/${itemId}`, {
@@ -34,8 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const result = await response.json();
 
             // 4. 성공 시, 버튼 텍스트를 업데이트합니다.
-            console.log(`좋아요 성공: ${result.like}`);
-            button.textContent = `좋아요(${result.like})`;
+            console.log(`좋아요 성공: ${result.likes}`);
+            button.textContent = `좋아요(${result.likes})`;
 
         } catch (error) {
             // 5. 네트워크 오류나 서버 오류 시 에러를 콘솔에 출력합니다.

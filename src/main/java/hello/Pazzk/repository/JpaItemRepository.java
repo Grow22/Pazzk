@@ -10,8 +10,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class JpaRepository implements ItemRepository{
-
+public class JpaItemRepository implements ItemRepository{
 
     private final SpringDataJpaItemRepository itemRepository;
 
@@ -40,12 +39,19 @@ public class JpaRepository implements ItemRepository{
     }
 
     @Override
-    public Item findById(ItemSearchCond cond) {
-       return null;
+    public Optional<Item> findById(ItemSearchCond cond) {
+       return itemRepository.findById(cond.getItemId());
     }
+
+
 
     @Override
     public void vote(Item item) {
 
+    }
+
+    @Override
+    public List<Item> findByMember_Id(long memberId) {
+        return itemRepository.findByMember_Id(memberId);
     }
 }

@@ -13,7 +13,6 @@ import lombok.Data;
 @Entity
 public class Item {
 
-
     @Id
     @GeneratedValue
     private Long id;
@@ -32,7 +31,6 @@ public class Item {
 
     @ManyToOne
     private Member member;
-
 
 
     public Item(Long id) {
