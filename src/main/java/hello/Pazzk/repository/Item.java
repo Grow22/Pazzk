@@ -7,6 +7,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
+import java.util.Date;
+
 
 // 게시판에서 저장할 객체 Item
 @Data
@@ -114,4 +116,14 @@ public class Item {
     public void setUrl(String url) {
         this.url = url;
     }
+
+
+    public Member getMember() {
+        return member;
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
+
 }

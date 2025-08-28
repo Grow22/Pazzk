@@ -5,7 +5,10 @@
     <title>간단한 검색 페이지</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-<body>
+
+<!--  session 에 loginMember 존재 시 true
+      session 에 loginMember 가 없을 시 false-->
+<body th:data-logged-in="${session.loginMember != null}">
 
 
 <div class="header-container">
@@ -28,6 +31,17 @@
         <p th:text="|${session.loginMember.name}님 환영합니다!|"></p>
         <a th:href="@{/logout}" class="logout-button">로그아웃</a>
 </div>
+
+    <h1>파지직</h1>
+    <form th:action="@{/search}" method="post">
+        <input
+                type="text"
+                name="keyword"
+                th:value="${keyword}"
+                placeholder="검색어를 입력하세요..."
+        />
+        <button type="submit">검색</button>
+    </form>
 
     <div class="my-videos-link">
         <a th:href="@{/my-videos}">내가 추가한 영상 보러가기</a>

@@ -1,7 +1,18 @@
+
+
 const bookmarkButtons = document.querySelectorAll(".bookmark-on");
+
+
+const isLoggedIn = document.body.dataset.loggedIn === "true";
 
 bookmarkButtons.forEach((button) => {
   button.addEventListener("click", () => {
+
+    // 로그인 상태가 아닐 시 함수 종료
+    if(!isLoggedIn) {
+        alert("로그인 후 사용 가능합니다");
+        return;
+    }
     const itemId = button.dataset.itemId;
     button.disabled = true; // 중복 클릭 방지
 

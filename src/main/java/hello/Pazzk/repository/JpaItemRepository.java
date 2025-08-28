@@ -24,9 +24,10 @@ public class JpaItemRepository implements ItemRepository{
 
         String itemName=  cond.getItemName();
 
+        System.out.println("findAll 메서드 호출");
         // 문자가 존재할 경우
         if(StringUtils.hasText(itemName)) {
-            return itemRepository.findByItemName("%" + itemName + "%");
+            return itemRepository.findByItemNameContaining(itemName);
         }
         // 문자가 없을 경우 모든 문자열 반환
         else {

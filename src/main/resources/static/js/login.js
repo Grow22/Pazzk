@@ -3,7 +3,6 @@ const likeButtons = document.querySelectorAll(".comment-like");
 likeButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const itemId = button.dataset.itemId;
-    console.log("테스트");
     sendLikeToServer(itemId);
   });
 });

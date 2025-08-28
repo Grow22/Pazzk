@@ -2,9 +2,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. 모든 '.comment-like' 버튼을 선택합니다.
     const likeButtons = document.querySelectorAll(".comment-like");
 
+    // login 상태를 가져 와 로그인 시 좋아요 기능 호출
+    const isLoggedIn = document.body.dataset.loggedIn === "true";
+
     // 2. 각 버튼에 클릭 이벤트 리스너를 추가합니다.
     likeButtons.forEach(button => {
         button.addEventListener("click", () => {
+
+            console.log(isLoggedIn);
+            // 로그인 상태가 아닐 시 종료
+            if(!isLoggedIn) {
+                alert("로그인 후 사용 가능합니다");
+                return;
+            }
             // 중복 클릭 방지를 위해 버튼을 비활성화합니다.
             button.disabled = true;
 

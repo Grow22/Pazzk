@@ -1,6 +1,7 @@
     package hello.Pazzk.controller;
 
 
+    import hello.Pazzk.domain.LikeItem;
     import hello.Pazzk.domain.Member;
     import hello.Pazzk.repository.Item;
     import hello.Pazzk.repository.ItemSearchCond;
@@ -11,9 +12,8 @@
     import org.springframework.stereotype.Controller;
     import org.springframework.ui.Model;
     import org.springframework.web.bind.annotation.*;
-    import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-    import java.util.ArrayList;
+    import java.util.Date;
     import java.util.List;
 
     @Controller
@@ -52,7 +52,7 @@
 
             // 검색 이름(keyword) 에 맞는 결과들 반환
             List<Item> lists = itemService.findAll(new ItemSearchCond(keyword));
-
+            System.out.println("lists = " + lists);
             model.addAttribute("lists", lists);
             model.addAttribute("member", new Member());
             return "search";
@@ -61,20 +61,5 @@
 
 
 
-        @PostMapping("/likes/{itemId}")
-        public ResponseEntity<Item> plusLike(@PathVariable("itemId") Long itemId) {
 
-            System.out.println("plusLike 메서드 호출");
-
-            // itemId 에 해당하는 item 을 find
-            Item item =itemService.findById(new ItemSearchCond(itemId)).get();
-
-
-            // 좋아요를 증가
-            item.likePlus();
-
-            itemService.save(item);
-            // 결과 반환
-            return new ResponseEntity<>(item, HttpStatus.OK);
-        }
     }
