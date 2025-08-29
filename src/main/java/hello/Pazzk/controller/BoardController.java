@@ -11,13 +11,16 @@ import hello.Pazzk.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.swing.text.html.Option;
 import java.util.*;
 
 @Controller
@@ -47,17 +50,30 @@ public class BoardController {
 
     // 즐겨찾기 클릭 시 해당 메서드 호출
     @PostMapping("/bookmark/{itemId}")
+    @Transactional
     public ResponseEntity<Map<String, Object>> bookmark(@PathVariable("itemId") Long itemId, HttpSession session) {
 
         // (1) Session 으로부터 Member 를 얻은 후 memberId 휙득
         Member member=  (Member) session.getAttribute("loginMember");
 
-        System.out.println("itemId = " + itemId);
+        // (0) 이미 Item 에 대해 북마크가 존재할 경우
+        // 북마크 취소 여부 확인
+        Optional<BookmarkItem> optionalBookmarkItem = bookmarkRepository.findByMemberIdAndItemId(member.getId(), itemId);
+        System.out.println("optionalBookmarkItem = " + optionalBookmarkItem);
+        // memberId, itemId 에 해당하는 item 이 존재할 경우
+        if(optionalBookmarkItem.isPresent()) {
+
+            System.out.println("북마크 아이템 이미 존재");
+            Map<String , Object> response = new HashMap<>();
+            response.put("success", false);
+            response.put("message", "이미 즐겨찾기 되어 있는 상태입니다.");
+            return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+        }
+
         // (2) itemId 로 부터 해당 item 을 get
         Optional<Item> OptionalItem = itemService.findById(new ItemSearchCond(itemId));
-
         Item item = OptionalItem.get();
-        System.out.println("item = " + item);
+
         // (3) bookmarkItem 연관관계 설정 후 해당 Item 을 저장
         BookmarkItem bookmarkItem = new BookmarkItem();
         bookmarkItem.setMember(member);
@@ -96,5 +112,28 @@ public class BoardController {
         model.addAttribute("items", items);
 
         return "myitem/my-bookmark";
+    }
+
+    // 즐겨찾기 취소 메서드
+    @PostMapping("/deletes/{itemId}")
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable("itemId") Long itemId) {
+
+        // itemId 에 해당하는 Item 휙득 후 해당 Item 삭제
+        Optional<BookmarkItem> optionalBookmarkItem = bookmarkRepository.findByItemId(itemId);
+        if(optionalBookmarkItem.isPresent()) {
+            bookmarkRepository.delete(optionalBookmarkItem.get());
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("message", "즐겨찾기가 취소되었습니다.");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        // 삭제할 Bookmark 가 없는 경우
+        else {
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", false);
+            response.put("message", "삭제할 북마크 존재하지 않음");
+            // 404 Error
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
     }
 }

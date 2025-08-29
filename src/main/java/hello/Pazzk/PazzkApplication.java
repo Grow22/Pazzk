@@ -1,6 +1,7 @@
 package hello.Pazzk;
 
 import hello.Pazzk.repository.ItemRepository;
+import hello.Pazzk.repository.SpringDataJpaMemberRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -14,8 +15,8 @@ public class PazzkApplication {
 
 	// TestDataInit 스프링 빈 등록
 	@Bean
-	public TestDataInit testDataInit(ItemRepository itemRepository) {
+	public TestDataInit testDataInit(ItemRepository itemRepository, SpringDataJpaMemberRepository memberRepository) {
 		System.out.println("테스트 호출");
-		return new TestDataInit(itemRepository);
+		return new TestDataInit(itemRepository, memberRepository);
 	}
 }

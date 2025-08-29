@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /*
@@ -26,5 +27,5 @@ public class LikeItem {
 
     @ManyToOne
     private Item item;
-    Date date;
+    LocalDate date;
 }

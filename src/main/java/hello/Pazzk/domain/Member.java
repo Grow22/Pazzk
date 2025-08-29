@@ -23,4 +23,12 @@ public class Member {
     private String pwd;
 
 
+    public Member(String name, String userId, String pwd) {
+        this.name = name;
+        this.userId = userId;
+        this.pwd = pwd;
+    }
+
+    public Member() {
+    }
 }

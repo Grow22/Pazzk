@@ -34,6 +34,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
             });
 
+            console.log(response);
+            //응답 상태가 409(좋아요를 이미 눌렀을 시) 함수 종료
+            if(response.status === 409) {
+                console.log("좋아요를 다음 날");
+                alert("이미 오늘 좋아요를 눌렀습니다.");
+                return;
+            }
+
             if (!response.ok) {
                 // 서버가 200 OK 외의 응답(예: 404, 500)을 보낼 때
                 const errorText = await response.text();
@@ -48,6 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             // 5. 네트워크 오류나 서버 오류 시 에러를 콘솔에 출력합니다.
+
+
             console.error(`좋아요 요청 중 오류 발생: ${error.message}`);
 
         } finally {
