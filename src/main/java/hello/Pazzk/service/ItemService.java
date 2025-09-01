@@ -44,4 +44,8 @@ public class ItemService {
     public List<Item > findByMemberId(Long memberId) {
      return itemRepository.findByMember_Id(memberId);
     }
+
+    public List<Item> findByMemberIdAndItemNameContaining(long memberId, String itemName) {
+        return itemRepository.findByMemberIdAndItemNameContaining(memberId, itemName);
+    }
 }

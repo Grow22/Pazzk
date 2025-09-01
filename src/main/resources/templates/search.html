@@ -22,7 +22,7 @@
             <button type="submit" class="login-button">로그인</button>
         </form>
     </div>
-    <div class="register-container">
+    <div th:if="${session.loginMember == null}" class="register-container">
         <a th:href="@{/member/add}" class="register-button">회원가입</a>
     </div>
 </div>
@@ -43,16 +43,18 @@
         <button type="submit">검색</button>
     </form>
 
+    <!--
     <div class="my-videos-link">
-        <a th:href="@{/my-videos}">내가 추가한 영상 보러가기</a>
+        <a th:href="@{/my-videos}" th:onclick="checkLogin(event, this)">내가 추가한 영상 보러가기</a>
     </div>
+    -->
 
     <div class="my-bookmark-link">
-        <a th:href="@{/my-bookmark}">나의 북마크 영상 보러가기</a>
+        <a th:href="@{/my-bookmark}" th:onclick="checkLogin(event, this)">나의 북마크 영상 보러가기</a>
     </div>
 
     <div class="add-link">
-        <a th:href="@{/add}">새로운 항목 추가</a>
+        <a th:href="@{/add}" th:onclick="checkLogin(event, this)">새로운 항목 추가</a>
     </div>
 
     <hr />
@@ -119,5 +121,6 @@
 <script th:src="@{/js/like.js}"></script>
 <script th:src="@{/js/video-player.js}"></script>
 <script th:src="@{/js/bookmark.js}"></script>
+<script th:src="@{/js/login-check.js}"></script>
 </body>
 </html>

@@ -18,4 +18,6 @@ public interface ItemRepository {
     public void vote(Item item);
 
     List<Item> findByMember_Id(long memberId);
+
+    List<Item> findByMemberIdAndItemNameContaining(long memberId, String itemName);
 }

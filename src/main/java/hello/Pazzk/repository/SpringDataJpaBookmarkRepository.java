@@ -15,4 +15,6 @@ public interface SpringDataJpaBookmarkRepository extends JpaRepository<BookmarkI
     Optional<BookmarkItem> findByItemId(Long itemId);
 
     void deleteByItemId(Long itemId);
+
+    List<BookmarkItem> findByMember_IdAndItem_ItemNameContaining(Long memberId, String itemName);
 }

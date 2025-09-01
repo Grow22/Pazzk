@@ -36,29 +36,6 @@
             return "search";
         }
 
-        // Get Mapping
-        // Search Method
-        @GetMapping("/search")
-        public String searchForm(Model model) {
-            model.addAttribute("member", new Member());
-            return "search";
-        }
-
-        // Post Mapping
-        // Search Method
-        @PostMapping("/search")
-        public String search(@RequestParam(value = "keyword") String keyword, Model model) {
-
-            // 검색 이름(keyword) 에 맞는 결과들 반환
-            List<Item> lists = itemService.findAll(new ItemSearchCond(keyword));
-            System.out.println("lists = " + lists);
-            model.addAttribute("lists", lists);
-            model.addAttribute("member", new Member());
-            return "search";
-        }
-
-
-
 
 
     }

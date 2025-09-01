@@ -1,10 +1,7 @@
 package hello.Pazzk.repository;
 
 import hello.Pazzk.domain.Member;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
@@ -31,7 +28,8 @@ public class Item {
 
     private String videoId;
 
-    @ManyToOne
+    // Lazy 로딩 적용
+    @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
 

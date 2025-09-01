@@ -12,4 +12,6 @@ public interface SpringDataJpaItemRepository extends JpaRepository<Item, Long> {
     List<Item> findByMember_Id(long memberId);
 
     List<Item> findByItemNameContaining(String itemName);
+
+    List<Item> findByMemberIdAndItemNameContaining(Long memberId, String itemName);
 }

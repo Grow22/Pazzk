@@ -2,9 +2,11 @@ package hello.Pazzk.controller;
 
 
 import hello.Pazzk.domain.BookmarkItem;
+import hello.Pazzk.domain.LikeItem;
 import hello.Pazzk.domain.Member;
 import hello.Pazzk.repository.Item;
 import hello.Pazzk.repository.ItemSearchCond;
+import hello.Pazzk.repository.JpaLikeItemRepository;
 import hello.Pazzk.repository.SpringDataJpaBookmarkRepository;
 import hello.Pazzk.service.ItemService;
 import hello.Pazzk.service.MemberService;
@@ -19,7 +21,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Controller
@@ -31,6 +35,7 @@ public class BoardController {
     private final MemberService memberService;
 
     private final SpringDataJpaBookmarkRepository bookmarkRepository;
+    private final JpaLikeItemRepository likeItemRepository;
     // 영상 확인 메서드
     @GetMapping("/my-videos")
     public String showMyVideos(Model model, HttpSession session) {
@@ -39,12 +44,13 @@ public class BoardController {
         Member member = (Member)session.getAttribute("loginMember");
 
         // Join 시켜서 member 에 맞는 item 들을 반환
-        List<Item> items = itemService.findByMemberId(member.getId());
+        List<Item> lists = itemService.findByMemberId(member.getId());
+        //System.out.println("lists = " + lists);
 
-        model.addAttribute("items", items);
+        model.addAttribute("lists", lists);
 
         // 내 영상들 확인
-        return "myitem/my-items";
+        return "search";
     }
 
     // 즐겨찾기 클릭 시 해당 메서드 호출
@@ -101,16 +107,16 @@ public class BoardController {
         List<BookmarkItem> bookmarkItems = bookmarkRepository.findByMember_Id(memberId);
 
         System.out.println("bookmarkItems = " + bookmarkItems);
-        List<Item> items = new ArrayList<>();
+        List<Item> lists = new ArrayList<>();
         // bookmarkItem 의 itemId 에 해당하는 객체를 items 에 저장
         for (BookmarkItem bookmarkItem : bookmarkItems) {
             Item item = itemService.findById(new ItemSearchCond(bookmarkItem.getItem().getId())).get();
-            items.add(item);
+            lists.add(item);
         }
 
-        model.addAttribute("items", items);
+        model.addAttribute("lists", lists);
 
-        return "myitem/my-bookmark";
+        return "search";
     }
 
     // 즐겨찾기 취소 메서드
@@ -134,5 +140,52 @@ public class BoardController {
             // 404 Error
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
+    }
+
+    // 좋아요 메서드
+    @PostMapping("/likes/{itemId}")
+    public ResponseEntity<Item> plusLike(@PathVariable("itemId") Long itemId, HttpSession session) {
+
+        Member member = (Member) session.getAttribute("loginMember");
+
+        System.out.println("plusLike 메서드 호출");
+
+        // itemId 에 해당하는 item 을 find
+        Item item =itemService.findById(new ItemSearchCond(itemId)).get();
+
+        Optional<LikeItem> optionalLikeItem = likeItemRepository.findByMemberIdAndItemId(member.getId(), itemId);
+
+        // 만약 좋아요를 누른 Item 의 좋아요 수가 0 일 경우 ==> LikeItem 객체가 존재하지 않을 경우
+        if(optionalLikeItem.isEmpty()) {
+            // 좋아요를 증가 후 Item 저장
+            item.likePlus();
+            itemService.save(item);
+
+            // 리팩토링 필요 -> 연관관계 설정 부분
+            LikeItem likeItem = new LikeItem();
+            likeItem.setDate(LocalDate.now());
+            likeItem.setItem(itemService.findById(new ItemSearchCond(itemId)).get());
+            likeItem.setMember(member);
+            likeItemRepository.save(likeItem);
+            return new ResponseEntity<>(item, HttpStatus.OK);
+        }
+        // 만약 좋아요를 누른 Item 의 날짜가 오늘과 같을 시 증가 xx
+        else if(optionalLikeItem.get().getDate().isEqual(LocalDate.now())) {
+            //System.out.println("두 번째 if 문 호출");
+            //System.out.println("오늘 날짜와 같습니다.");
+            return new ResponseEntity<>(item, HttpStatus.CONFLICT);
+        }
+
+        // 객체가 존재하고 오늘 날짜와 같지 않은 경우 -> 좋아요 증가
+        item.likePlus();
+        itemService.save(item);
+
+        // 해당 item 의 날짜를 오늘로 변경
+        LikeItem likeItem = likeItemRepository.findByMemberIdAndItemId(member.getId(), itemId).get();
+        likeItem.setDate(LocalDate.now()
+        );
+
+        // 결과 반환
+        return new ResponseEntity<>(item, HttpStatus.OK);
     }
 }
