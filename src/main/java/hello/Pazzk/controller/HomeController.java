@@ -6,6 +6,7 @@
     import hello.Pazzk.repository.ItemSearchCond;
     import hello.Pazzk.service.ItemService;
     import lombok.RequiredArgsConstructor;
+    import org.springframework.data.domain.Page;
     import org.springframework.stereotype.Controller;
     import org.springframework.ui.Model;
     import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,8 @@
 
         private final ItemService itemService;
 
+
+        /*
         // home 메서드
         @GetMapping("/")
         public String home(@ModelAttribute("welcomeName") String welcomeName, Model model)
@@ -35,7 +38,19 @@
             System.out.println("lists = " + lists);
             return "search";
         }
-
-
+         */
+        @GetMapping("/")
+        public String home(@ModelAttribute("welcomeName") String welcomeName, Model model, @RequestParam(value = "page", defaultValue = "0") int page,
+                           @RequestParam(value = "size", defaultValue = "5") int size)
+        {
+            if(welcomeName != null) {
+                model.addAttribute("welcomeName", welcomeName);
+            }
+            Page<Item> lists = itemService.findAll(page, size);
+            model.addAttribute("lists", lists);
+            model.addAttribute("member", new Member());
+            System.out.println("lists = " + lists);
+            return "search";
+        }
 
     }

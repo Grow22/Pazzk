@@ -25,8 +25,12 @@ public class TestDataInit {
         log.info("test data init");
 
 
-        itemRepository.save(new Item("네이버","http://youtube.com/watch?v=U3BJyWSSbro&t=28s","Q7st4TpqDA"));
-        itemRepository.save((new Item("인프런","http://youtube.com/watch?v=1Lhfcz9MnmQ/" ,"lOMDkzvzcn")));
+        itemRepository.save(new Item("ㅋㅋ","http://youtube.com/watch?v=U3BJyWSSbro&t=28s","Q7st4TpqDA"));
+        itemRepository.save((new Item("레전드","http://youtube.com/watch?v=1Lhfcz9MnmQ/" ,"lOMDkzvzcn")));
+        itemRepository.save(new Item("안녕","https://chzzk.naver.com/clips/9q0NNG2y1u","9q0NNG2y1u"));
+        itemRepository.save(new Item("테스트야", "https://chzzk.naver.com/clips/jWqYLuUzFW","jWqYLuUzFW"));
+        itemRepository.save(new Item("리소라", "https://chzzk.naver.com/clips/uSjrkATADP", "uSjrkATADP"));
+        itemRepository.save(new Item("두 번째 페이지로","https://chzzk.naver.com/clips/w8NU6CR8YT","w8NU6CR8YT"));
         memberRepository.save(new Member("장성준", "123", "123"));
     }
 }

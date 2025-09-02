@@ -4,12 +4,32 @@
     <meta charset="UTF-8" />
     <title>간단한 검색 페이지</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        /* CSS for pagination */
+        .pagination-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .pagination-container a, .pagination-container span {
+            padding: 8px 12px;
+            margin: 0 4px;
+            border: 1px solid #ccc;
+            text-decoration: none;
+            color: #333;
+            border-radius: 4px;
+        }
+        .pagination-container a:hover {
+            background-color: #f0f0f0;
+        }
+        .pagination-container .active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+    </style>
 </head>
 
-<!--  session 에 loginMember 존재 시 true
-      session 에 loginMember 가 없을 시 false-->
 <body th:data-logged-in="${session.loginMember != null}">
-
 
 <div class="header-container">
     <div class="login-form-container" th:if="${session.loginMember == null}">
@@ -26,14 +46,15 @@
         <a th:href="@{/member/add}" class="register-button">회원가입</a>
     </div>
 </div>
+
 <div class="welcome-Container">
     <div class="welcome-message" th:if="${session.loginMember}">
         <p th:text="|${session.loginMember.name}님 환영합니다!|"></p>
         <a th:href="@{/logout}" class="logout-button">로그아웃</a>
-</div>
+    </div>
 
     <h1>파지직</h1>
-    <form th:action="@{/search}" method="post">
+    <form th:action="@{/search}" method="get">
         <input
                 type="text"
                 name="keyword"
@@ -42,12 +63,6 @@
         />
         <button type="submit">검색</button>
     </form>
-
-    <!--
-    <div class="my-videos-link">
-        <a th:href="@{/my-videos}" th:onclick="checkLogin(event, this)">내가 추가한 영상 보러가기</a>
-    </div>
-    -->
 
     <div class="my-bookmark-link">
         <a th:href="@{/my-bookmark}" th:onclick="checkLogin(event, this)">나의 북마크 영상 보러가기</a>
@@ -59,7 +74,7 @@
 
     <hr />
     <h2>실시간 인기 동영상</h2>
-    <div th:if="${not #lists.isEmpty(lists)}">
+    <div th:if="${not #lists.isEmpty(lists.content)}">
         <table class="table">
             <thead>
             <tr>
@@ -70,7 +85,7 @@
             </tr>
             </thead>
             <tbody>
-            <th:block th:each="item : ${lists}">
+            <th:block th:each="item : ${lists.content}">
                 <tr>
                     <td th:text="${item.itemName}">item.itemName</td>
                     <td>
@@ -99,7 +114,6 @@
                             즐겨찾기
                         </button>
                     </td>
-
                 </tr>
                 <tr>
                     <td colspan="4"> <div class="comment-section" th:id="'comments-' + ${item.id}">
@@ -112,8 +126,25 @@
             </tbody>
         </table>
     </div>
-    <div th:if="${#lists.isEmpty(lists)}">
+    <div th:if="${#lists.isEmpty(lists.content)}">
         <p class="no-results">추가된 항목이 없습니다.</p>
+    </div>
+
+    <div class="pagination-container" th:if="${lists.totalPages > 1}">
+        <a th:if="${lists.hasPrevious()}"
+           th:href="@{/(page=${lists.number - 1}, size=${lists.size})}"
+           rel="prev">이전</a>
+
+        <th:block th:each="pageNum : ${#numbers.sequence(0, lists.totalPages - 1)}">
+            <a th:href="@{/(page=${pageNum}, size=${lists.size})}"
+               th:classappend="${pageNum == lists.number} ? 'active' : ''">
+                [[${pageNum + 1}]]
+            </a>
+        </th:block>
+
+        <a th:if="${lists.hasNext()}"
+           th:href="@{/(page=${lists.number + 1}, size=${lists.size})}"
+           rel="next">다음</a>
     </div>
 </div>
 

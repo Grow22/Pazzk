@@ -1,10 +1,11 @@
 package hello.Pazzk.service;
 
-import hello.Pazzk.repository.Item;
-import hello.Pazzk.repository.ItemRepository;
-import hello.Pazzk.repository.ItemSearchCond;
+import hello.Pazzk.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.internal.constraintvalidators.hv.URLValidator;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
@@ -22,6 +23,7 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
 
+    private final SpringDataJpaItemRepository jpaItemRepository;
     // Url 유효성 검사 메서드
 
 
@@ -31,6 +33,11 @@ public class ItemService {
 
     public List<Item> findAll(ItemSearchCond cond) {
         return itemRepository.findAll(cond);
+    }
+
+    public Page<Item> findAll(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return jpaItemRepository.findAll(pageable);
     }
 
 
@@ -47,5 +54,11 @@ public class ItemService {
 
     public List<Item> findByMemberIdAndItemNameContaining(long memberId, String itemName) {
         return itemRepository.findByMemberIdAndItemNameContaining(memberId, itemName);
+    }
+
+    // 페이징 메서드
+    public Page<Item> getItemWithPaging(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return jpaItemRepository.findAll(pageable);
     }
 }

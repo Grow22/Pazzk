@@ -142,6 +142,7 @@ public class BoardController {
         }
     }
 
+
     // 좋아요 메서드
     @PostMapping("/likes/{itemId}")
     public ResponseEntity<Item> plusLike(@PathVariable("itemId") Long itemId, HttpSession session) {
