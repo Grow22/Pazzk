@@ -3,7 +3,6 @@
 
     import hello.Pazzk.domain.Member;
     import hello.Pazzk.repository.Item;
-    import hello.Pazzk.repository.ItemSearchCond;
     import hello.Pazzk.service.ItemService;
     import lombok.RequiredArgsConstructor;
     import org.springframework.data.domain.Page;
@@ -11,10 +10,7 @@
     import org.springframework.ui.Model;
     import org.springframework.web.bind.annotation.GetMapping;
     import org.springframework.web.bind.annotation.ModelAttribute;
-    import org.springframework.web.bind.annotation.PostMapping;
     import org.springframework.web.bind.annotation.RequestParam;
-
-    import java.util.List;
 
     @Controller
     @RequiredArgsConstructor
@@ -50,6 +46,7 @@
             model.addAttribute("lists", lists);
             model.addAttribute("member", new Member());
             System.out.println("lists = " + lists);
+
             return "search";
         }
 

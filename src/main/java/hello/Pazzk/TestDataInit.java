@@ -30,7 +30,7 @@ public class TestDataInit {
         itemRepository.save(new Item("안녕","https://chzzk.naver.com/clips/9q0NNG2y1u","9q0NNG2y1u"));
         itemRepository.save(new Item("테스트야", "https://chzzk.naver.com/clips/jWqYLuUzFW","jWqYLuUzFW"));
         itemRepository.save(new Item("리소라", "https://chzzk.naver.com/clips/uSjrkATADP", "uSjrkATADP"));
-        itemRepository.save(new Item("두 번째 페이지로","https://chzzk.naver.com/clips/w8NU6CR8YT","w8NU6CR8YT"));
+        //itemRepository.save(new Item("두 번째 페이지로","https://chzzk.naver.com/clips/w8NU6CR8YT","w8NU6CR8YT"));
         memberRepository.save(new Member("장성준", "123", "123"));
     }
 }

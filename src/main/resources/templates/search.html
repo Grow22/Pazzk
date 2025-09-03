@@ -74,7 +74,7 @@
 
     <hr />
     <h2>실시간 인기 동영상</h2>
-    <div th:if="${not #lists.isEmpty(lists.content)}">
+    <div th:if="${not lists.isEmpty()}">
         <table class="table">
             <thead>
             <tr>
@@ -126,7 +126,7 @@
             </tbody>
         </table>
     </div>
-    <div th:if="${#lists.isEmpty(lists.content)}">
+    <div th:if="${not lists.isEmpty()}">
         <p class="no-results">추가된 항목이 없습니다.</p>
     </div>
 

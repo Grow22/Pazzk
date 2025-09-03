@@ -57,8 +57,14 @@ public class ItemService {
     }
 
     // 페이징 메서드
-    public Page<Item> getItemWithPaging(int page, int size) {
+    public Page<Item> getItemWithPagingItemNameContaining(int page, int size, String keyword) {
         Pageable pageable = PageRequest.of(page, size);
-        return jpaItemRepository.findAll(pageable);
+        return jpaItemRepository.findByItemNameContaining(pageable, keyword);
+    }
+
+    public Page<Item> findByMember_IdAndItem_ItemNameContaining(int page, int size, Long memberId, String keyword) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        return jpaItemRepository.findByMemberIdAndItemNameContaining(pageable,memberId,keyword);
     }
 }

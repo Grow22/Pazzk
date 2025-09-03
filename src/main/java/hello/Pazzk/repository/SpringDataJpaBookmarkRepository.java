@@ -1,6 +1,8 @@
 package hello.Pazzk.repository;
 
 import hello.Pazzk.domain.BookmarkItem;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -16,5 +18,5 @@ public interface SpringDataJpaBookmarkRepository extends JpaRepository<BookmarkI
 
     void deleteByItemId(Long itemId);
 
-    List<BookmarkItem> findByMember_IdAndItem_ItemNameContaining(Long memberId, String itemName);
+    Page<BookmarkItem> findByMember_IdAndItem_ItemNameContaining(Pageable pageable, Long memberId, String itemName);
 }

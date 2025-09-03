@@ -15,7 +15,11 @@ public interface SpringDataJpaItemRepository extends JpaRepository<Item, Long> {
 
     List<Item> findByItemNameContaining(String itemName);
 
-    List<Item> findByMemberIdAndItemNameContaining(Long memberId, String itemName);
+    Page<Item> findByItemNameContaining(Pageable pageable, String itemName);
+
+    Page<Item> findByMemberIdAndItemNameContaining(Pageable pageable, Long memberId, String itemName);
 
     Page<Item> findAll(Pageable pageable);
+
+
 }

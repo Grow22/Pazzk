@@ -2,6 +2,7 @@ package hello.Pazzk.repository;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -54,9 +55,16 @@ public class JpaItemRepository implements ItemRepository{
         return itemRepository.findByMember_Id(memberId);
     }
 
+    /*
     // 검색 조건: memberId, ItemName
-    public List<Item> findByMemberIdAndItemNameContaining(long memberId, String itemName) {
+    public List<Item> findByMemberIdAndItemNameContaining(Pageable pageable, long memberId, String itemName) {
 
-        return itemRepository.findByMemberIdAndItemNameContaining(memberId, itemName);
+        return itemRepository.findByMemberIdAndItemNameContaining(pageable, memberId, itemName);
+    }
+     */
+
+    @Override
+    public List<Item> findByMemberIdAndItemNameContaining(long memberId, String itemName) {
+        return null;
     }
 }
