@@ -92,7 +92,7 @@ public class ItemController {
             } else {
                 // 비로그인 상태 + 키워드 검색
                 // itemService의 findAll 메서드가 Pageable을 받도록 수정되어야 합니다.
-                System.out.println("삐로그인 상태");
+                //System.out.println("삐로그인 상태");
                 lists = itemService.getItemWithPagingItemNameContaining(page, size, keyword);
             }
             model.addAttribute("keyword", keyword); // 검색어 유지

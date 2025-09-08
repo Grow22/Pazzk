@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface SpringDataJpaBookmarkRepository extends JpaRepository<BookmarkItem, Long> {
 
-    List<BookmarkItem> findByMember_Id(long memberId);
+    Page<BookmarkItem> findByMember_Id(Pageable pageable, long memberId);
 
     Optional<BookmarkItem> findByMemberIdAndItemId(long memberId, long itemId);
 

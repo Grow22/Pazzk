@@ -3,7 +3,7 @@ body {
     margin: 20px;
 }
 .container {
-    max-width: 800px; /* 더 넓은 화면을 위해 컨테이너 최대 너비 증가 */
+    max-width: 800px;
     margin: auto;
     padding: 20px;
     border: 1px solid #ccc;
@@ -14,6 +14,23 @@ h1 {
     text-align: center;
     color: #333;
 }
+/* 이 a 태그 규칙을 삭제하거나 수정하는 것이 좋습니다. */
+/* a {
+      text-align: center;
+      color: #333;
+  } */
+
+/* --- 파지직 링크를 검색창 위 중앙으로 옮기는 CSS (수정됨) --- */
+#pajijik-logo {
+    display: block;
+    text-align: center;
+    font-size: 2.5em;
+    font-weight: bold;
+    text-decoration: none;
+    margin-bottom: 20px;
+    color: #333;
+}
+/* ------------------------------------------------ */
 form {
     display: flex;
     justify-content: center;
@@ -71,7 +88,7 @@ p.no-results {
     width: 100%;
     border-collapse: collapse;
     margin-top: 15px;
-    table-layout: auto; /* 테이블 레이아웃 자동 조정 */
+    table-layout: auto;
 }
 .table th,
 .table td {
@@ -154,28 +171,25 @@ p.no-results {
 /* 영상 관련 CSS */
 .table thead th:nth-child(2),
 .table tbody td:nth-child(2) {
-    width: 560px; /* 늘어난 URL 칸 너비 */
+    width: 560px;
 }
 .video-container {
     width: 100%;
     position: relative;
 }
-/* iframe을 부모 컨테이너 크기에 맞춤 */
 .video-player-frame {
     width: 100%;
     height: 100%;
     display: block !important;
 }
 .video-player-frame iframe {
-    width: 560px; /* 유튜브 영상 기본 너비와 유사하게 설정 */
-    height: 315px; /* 16:9 비율 유지 */
-    aspect-ratio: 16/9; /* 영상 비율 유지 */
+    width: 560px;
+    height: 315px;
+    aspect-ratio: 16/9;
 }
-/* 썸네일은 보이지 않게 처리 */
 .video-thumbnail {
     display: none;
 }
-
 .comment-like, .bookmark-btn {
     background-color: #007bff;
     color: white;
@@ -186,12 +200,10 @@ p.no-results {
     cursor: pointer;
     font-size: 14px;
 }
-
 .comment-like:hover, .bookmark-btn:hover {
     background-color: #0056b3;
 }
-
 .bookmark-btn {
     margin-top: 5px;
-    display: block; /* Ensures the button is on a new line */
+    display: block;
 }

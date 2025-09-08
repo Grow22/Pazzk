@@ -25,8 +25,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // 이미 즐겨찾기를 누른 경우
       if (response.status === 409) {
-
-
         if (confirm("이미 즐겨찾기된 영상입니다. 즐겨찾기를 취소하시겠습니까?")) {
           const deleteResponse = await fetch(`/deletes/${itemId}`, {
             method: "POST",

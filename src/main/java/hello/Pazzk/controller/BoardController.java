@@ -13,6 +13,9 @@ import hello.Pazzk.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,6 +24,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
@@ -75,7 +79,7 @@ public class BoardController {
             return new ResponseEntity<>(response, HttpStatus.CONFLICT);
         }
 
-        // (2) itemId 로 부터 해당 item 을 get
+        // (2) itemId, MemberId 에 해당하는 bookmarkItem 이 없을 경우
         Optional<Item> OptionalItem = itemService.findById(new ItemSearchCond(itemId));
         Item item = OptionalItem.get();
 
@@ -97,24 +101,29 @@ public class BoardController {
 
     // 사용자 북마크 호출 메서드
     @GetMapping("/my-bookmark")
-    public String callBookmark(Model model, HttpSession session) {
+    public String callBookmark(Model model, HttpSession session,
+                               @RequestParam(value = "page", defaultValue = "0") int page,
+                               @RequestParam(value = "sizes", defaultValue = "5") int size) {
 
+
+        Pageable pageable = PageRequest.of(page,size);
+        System.out.println("나의 북마크 보러가기 호출");
         // (1) Session 으로부터 member 휙득 후 id get
         Member member=  (Member) session.getAttribute("loginMember");
         Long memberId = member.getId();
 
         // (2) memberId 에 해당하는 bookmark 를 호출
-        List<BookmarkItem> bookmarkItems = bookmarkRepository.findByMember_Id(memberId);
+        Page<BookmarkItem> bookmarkItems = bookmarkRepository.findByMember_Id(pageable, memberId);
 
         System.out.println("bookmarkItems = " + bookmarkItems);
-        List<Item> lists = new ArrayList<>();
+        Page<Item> lists;
         // bookmarkItem 의 itemId 에 해당하는 객체를 items 에 저장
-        for (BookmarkItem bookmarkItem : bookmarkItems) {
-            Item item = itemService.findById(new ItemSearchCond(bookmarkItem.getItem().getId())).get();
-            lists.add(item);
-        }
+        lists = bookmarkItems.map(BookmarkItem::getItem);
 
         model.addAttribute("lists", lists);
+        for (Item list : lists) {
+            System.out.println("list = " + list);
+        }
 
         return "search";
     }
