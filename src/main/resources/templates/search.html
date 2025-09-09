@@ -73,7 +73,10 @@
     </div>
 
     <hr />
-    <h2>실시간 인기 동영상</h2>
+    <div class="heading-container">
+        <h2>실시간 인기 동영상</h2>
+        <a th:href="@{/search/sort-by-likes}" class="sort-button">좋아요 순</a>
+    </div>
     <div th:if="${not lists.isEmpty()}">
         <table class="table">
             <thead>

@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -107,64 +108,11 @@ public class ItemController {
         return "search";
     }
 
-    /*
-    // Post Mapping
-    // Search Method
-    @PostMapping("/search")
-    public String search(@RequestParam(value = "keyword") String keyword,
-                         @RequestParam(value = "page", defaultValue = "0") int page,
-                         @RequestParam(value = "sizes", defaultValue = "5") int size, Model model, HttpSession session) {
 
-        List<Item> lists = new ArrayList<>();
-        // (1) 로그인한 경우일 경우 해당 member 를 얻은 후
-        // member 와 keyword 에 맞는 items 를 추출
-        Member member = (Member) session.getAttribute("loginMember");
-        if(member != null && keyword != null) {
-            List<BookmarkItem> bookmarkItems = bookmarkRepository.findByMember_IdAndItem_ItemNameContaining(member.getId(), keyword);
-            for (BookmarkItem bookmarkItem : bookmarkItems) {
-                lists.add(bookmarkItem.getItem());
-            }
-        }
-        // (2) member 가 없는 경우 keyword 만 사용하여 결과 반환
-        else {
-            lists = itemService.findAll(new ItemSearchCond(keyword));
-        }
-        System.out.println("lists = " + lists);
+    @PostMapping("/search/sort-by-likes")
+    public ResponseEntity<Item> sortByLikes() {
 
-        model.addAttribute("lists", lists);
-        model.addAttribute("member", new Member());
-        return "search";
+
+
     }
-     */
-
-/*
-    @PostMapping("/search")
-    public String search(@RequestParam(value = "keyword") String keyword,
-                         @RequestParam(value = "page", defaultValue = "0") int page,
-                         @RequestParam(value = "sizes", defaultValue = "5") int size, Model model, HttpSession session) {
-
-        System.out.println("메서드 호출");
-        Page<Item> lists;
-        // (1) 로그인한 경우일 경우 해당 member 를 얻은 후
-        // member 와 keyword 에 맞는 items 를 추출
-        Member member = (Member) session.getAttribute("loginMember");
-
-        Pageable pageable = PageRequest.of(page, size);
-        if(member != null && keyword != null) {
-            Page<BookmarkItem> bookmarkItems = bookmarkRepository.findByMember_IdAndItem_ItemNameContaining(pageable, member.getId(), keyword);
-            lists = bookmarkItems.map(BookmarkItem::getItem);
-        }
-        // (2) member 가 없는 경우 keyword 만 사용하여 결과 반환
-        else {
-            lists = itemService.findAll(page,size);
-        }
-
-        System.out.println("lists = " + lists);
-        model.addAttribute("lists", lists);
-        model.addAttribute("member", new Member());
-        return "search";
-    }
-
-
- */
 }

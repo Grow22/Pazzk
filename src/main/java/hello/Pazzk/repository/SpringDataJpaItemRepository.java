@@ -21,5 +21,7 @@ public interface SpringDataJpaItemRepository extends JpaRepository<Item, Long> {
 
     Page<Item> findAll(Pageable pageable);
 
+    // 좋아요 순으로 반환하는 메서드
+    Page<Item> findByOrderByLikesDesc(Pageable pageable);
 
 }
