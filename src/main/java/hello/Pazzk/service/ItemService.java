@@ -40,6 +40,10 @@ public class ItemService {
         return jpaItemRepository.findAll(pageable);
     }
 
+    public Page<Item> findAll(Pageable pageable) {
+        return jpaItemRepository.findAll(pageable);
+    }
+
 
     // itemId 에 해당하는 item 을 찾는 메서들
     public Optional<Item> findById(ItemSearchCond cond) {

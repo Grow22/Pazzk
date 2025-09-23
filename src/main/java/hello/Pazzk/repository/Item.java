@@ -51,6 +51,15 @@ public class Item {
         this.videoId = videoId;
     }
 
+    public Item(String itemName, String thumbnailUrl, String videoId, Long likes) {
+        this.itemName = itemName;
+        this.thumbnailUrl = thumbnailUrl;
+        this.videoId = videoId;
+        this.likes = likes;
+    }
+
+
+
     public Item(Long id, String itemName, String thumbnailUrl) {
         this.id = id;
         this.itemName = itemName;

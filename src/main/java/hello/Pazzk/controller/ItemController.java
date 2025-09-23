@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -109,10 +110,32 @@ public class ItemController {
     }
 
 
-    @PostMapping("/search/sort-by-likes")
-    public ResponseEntity<Item> sortByLikes() {
 
+    /*
+        좋아요 순 정렬 메서드
+     */
+    @GetMapping("/search/sort-by-likes")
+    public String sortByLikes(@RequestParam(value ="page", defaultValue = "0") int page,
+                                            @RequestParam(value = "size", defaultValue = "5" ) int size,
+                                            Model model, HttpSession session) {
 
+        // (1) likes 순으로 데이터 정렬한 Pageable 객체 생성
+        Pageable pageable = PageRequest.of(page,  size , Sort.by("likes").descending());
 
+        // 정렬된 항목을 반환 후 model 에 저장
+        Page<Item> lists = itemService.findAll(pageable);
+        model.addAttribute("lists", lists);
+
+        Member member = (Member) session.getAttribute("loginMember");
+        if(member == null) {
+            model.addAttribute("member", new Member());
+        }
+        else {
+            model.addAttribute("member", member);
+        }
+
+        return "search";
     }
+
+
 }
