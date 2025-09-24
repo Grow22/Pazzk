@@ -129,6 +129,7 @@ public class ItemController {
         Member member = (Member) session.getAttribute("loginMember");
         if(member == null) {
             model.addAttribute("member", new Member());
+            
         }
         else {
             model.addAttribute("member", member);

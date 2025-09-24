@@ -26,6 +26,18 @@
             color: white;
             border-color: #007bff;
         }
+
+        /* 추가 CSS: 제목을 영상 위로 올리기 위한 스타일 */
+        .video-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .video-title {
+            font-weight: bold;
+            margin-bottom: 5px; /* 제목과 영상 사이 간격 */
+        }
     </style>
 </head>
 
@@ -76,13 +88,28 @@
     <div class="heading-container">
         <h2>실시간 인기 동영상</h2>
         <a th:href="@{/search/sort-by-likes}" class="sort-button">좋아요 순</a>
+        <div class="pagination-container" th:if="${lists.totalPages > 1}">
+            <a th:if="${lists.hasPrevious()}"
+               th:href="@{/(page=${lists.number - 1}, size=${lists.size})}"
+               rel="prev">이전</a>
+
+            <th:block th:each="pageNum : ${#numbers.sequence(0, lists.totalPages - 1)}">
+                <a th:href="@{/(page=${pageNum}, size=${lists.size})}"
+                   th:classappend="${pageNum == lists.number} ? 'active' : ''">
+                    [[${pageNum + 1}]]
+                </a>
+            </th:block>
+
+            <a th:if="${lists.hasNext()}"
+               th:href="@{/(page=${lists.number + 1}, size=${lists.size})}"
+               rel="next">다음</a>
+        </div>
     </div>
     <div th:if="${not lists.isEmpty()}">
         <table class="table">
             <thead>
             <tr>
-                <th>제목</th>
-                <th>URL</th>
+                <th>동영상</th>
                 <th>댓글</th>
                 <th>좋아요</th>
             </tr>
@@ -90,10 +117,10 @@
             <tbody>
             <th:block th:each="item : ${lists.content}">
                 <tr>
-                    <td th:text="${item.itemName}">item.itemName</td>
                     <td>
-                        <div class="video-container" th:data-video-id="${item.videoId}">
-                            <div class="video-player-frame">
+                        <div class="video-item-container">
+                            <div class="video-title" th:text="${item.itemName}">item.itemName</div>
+                            <div class="video-player-frame" th:data-video-id="${item.videoId}">
                                 <iframe
                                         title="CHZZK Player"
                                         th:src="|https://chzzk.naver.com/embed/clip/${item.videoId}|"
@@ -129,26 +156,7 @@
             </tbody>
         </table>
     </div>
-    <div th:if="${not lists.isEmpty()}">
-        <p class="no-results">추가된 항목이 없습니다.</p>
-    </div>
 
-    <div class="pagination-container" th:if="${lists.totalPages > 1}">
-        <a th:if="${lists.hasPrevious()}"
-           th:href="@{/(page=${lists.number - 1}, size=${lists.size})}"
-           rel="prev">이전</a>
-
-        <th:block th:each="pageNum : ${#numbers.sequence(0, lists.totalPages - 1)}">
-            <a th:href="@{/(page=${pageNum}, size=${lists.size})}"
-               th:classappend="${pageNum == lists.number} ? 'active' : ''">
-                [[${pageNum + 1}]]
-            </a>
-        </th:block>
-
-        <a th:if="${lists.hasNext()}"
-           th:href="@{/(page=${lists.number + 1}, size=${lists.size})}"
-           rel="next">다음</a>
-    </div>
 </div>
 
 <script th:src="@{/js/comment.js}"></script>
